@@ -4,6 +4,6 @@ from django.db import models
 
 
 class ScrapeRequest(models.Model):
-    email = models.EmailField
+    email = models.EmailField()
     csv_path = models.CharField(max_length=100)
     status = models.IntegerField(default=0)

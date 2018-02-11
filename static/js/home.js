@@ -25,13 +25,14 @@ $(function () {
   $('#csv_form').ajaxForm({
       delegation: true,
       error: function (data, statusText, shr, $form) {
-          PNotify.error('Server encountered error. Please try again.');
+          toastr.error('Server encountered an error. Please try again.');
       },
       success: function (data, statusText, xhr, $form) {
           if(data.status === 'success') {
-              PNotify.success(data.message);
-          } else{
-              PNotify.error(data.message);
+              console.log(data);
+              toastr.success(data.message);
+          } else {
+              toastr.error(data.message);
           }
       }
   })
