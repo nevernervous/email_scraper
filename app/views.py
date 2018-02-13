@@ -1,4 +1,3 @@
-import json
 import os
 import time
 
@@ -7,6 +6,7 @@ from django.http import JsonResponse
 from django.views import View
 
 from .models import ScrapeRequest
+from .tasks import scrape
 
 # Create your views here.
 
@@ -30,8 +30,10 @@ class HomeView(View):
         with open(file_path, 'w') as file:
             file.write(urls)
 
-        scrape_request = ScrapeRequest.objects.create(email=email,csv_path=file_path)
+        scrape_request = ScrapeRequest.objects.create(email=email, csv_path=file_path)
         scrape_request.save()
+
+        scrape.delay(scrape_request.id)
 
         return JsonResponse({
             'status': 'success',
