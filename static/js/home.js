@@ -29,7 +29,6 @@ $(function () {
       },
       success: function (data, statusText, xhr, $form) {
           if(data.status === 'success') {
-              console.log(data);
               toastr.success(data.message);
           } else {
               toastr.error(data.message);

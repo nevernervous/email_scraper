@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'falov&+4($@b7#ekc6u^kb7rse8&l8u@_d*jxwx0nrx7n)t2wq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'suit',
+    # 'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,6 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/ubuntu/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -137,9 +138,9 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": "",
-    "MAILGUN_SENDER_DOMAIN": "",
+    "MAILGUN_API_KEY": "key-939396a5f997df66be75888be617b257",
+    "MAILGUN_SENDER_DOMAIN": "www.qwikleads.com",
 }
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = "sender@mail.com"
+DEFAULT_FROM_EMAIL = "bob@qwikleads.com"

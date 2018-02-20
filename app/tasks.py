@@ -29,6 +29,7 @@ def scrape(s_id):
             reader = csv.reader(csv_file)
             writer = csv.writer(output_file, delimiter=",", lineterminator="\n")
             writer.writerow(['website', 'facebook', 'instagram', 'email'])
+            # i = 0
             for row in reader:
                 if row:
                     url = row[0]
@@ -40,12 +41,13 @@ def scrape(s_id):
                         row.append('')
                         row.append('')
                     else:
-                        facebooks, instagrams, emails = extract_data(url)
-                        row.append(','.join(facebooks))
-                        row.append(','.join(instagrams))
+                        facebook, instagram, emails = extract_data(url)
+                        row.append(facebook)
+                        row.append(instagram)
                         row.append(','.join(emails))
 
-                    print(row)
+                    # print(i)
+                    # i = i + 1
                     writer.writerow(row)
 
             scrape_request.result_csv_path = result_csv_path
@@ -94,7 +96,7 @@ def extract_data(address):
         email.extend(re.findall('[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', content))
     except Exception as e:
         # print('no content for main')
-        return facebook, instagram, email
+        return '', '', email
 
     try:
         soup = BeautifulSoup(requests.get(address + '/contact', headers=headers, verify=False, ).text, 'html.parser')
@@ -124,18 +126,33 @@ def extract_data(address):
         facebook[index] = facebook[index][6:]
     for index, item in enumerate(instagram):
         instagram[index] = instagram[index][6:]
+
+    facebook_list = list()
     instagram_list = list()
     email_list = list()
 
     for index, item in enumerate(instagram):
-        if not instagram[index].startswith('https://www.instagram.com/p/'):
+        if not instagram[index].startswith('https://www.instagram.com/p/') \
+                and not instagram[index].startswith('http://www.instagram.com/p/'):
             instagram_list.append(instagram[index])
+
+    for index, item in enumerate(facebook):
+        if not facebook[index].startswith('https://www.facebook.com/sharer/') \
+                and not facebook[index].startswith('http://www.facebook.com/sharer/'):
+            facebook_list.append(facebook[index])
 
     for index, item in enumerate(email):
         if any(check_str in email[index] for check_str in except_strings):
             continue
         else:
             email_list.append(email[index])
-
-    return facebook, instagram_list, email_list
+    if len(facebook_list) == 0:
+        facebook = ''
+    else:
+        facebook = facebook[0]
+    if len(instagram_list) == 0:
+        instagram = ''
+    else:
+        instagram = instagram_list[0]
+    return facebook, instagram, email_list
 
