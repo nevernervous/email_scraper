@@ -5,9 +5,10 @@ from .models import ScrapeRequest
 
 
 class ScrapeRequestAdmin(admin.ModelAdmin):
-    fields = ('email', 'csv_path', 'result_csv_path', 'status', 'created_at')
-    readonly_fields = ('created_at', 'status')
-    list_display = ('email', 'csv_path', 'current_status', 'created_at')
+    fields = ('email', 'csv_path', 'result_csv_path', 'status', 'created_at', 'updated_at')
+    readonly_fields = ('created_at', 'status', 'updated_at')
+    list_display = ('email', 'csv_path', 'current_status', 'created_at', 'updated_at')
+
 
     def current_status(self, obj):
         return obj.status == 0 and 'Pending' or 'Delivered'
