@@ -95,7 +95,7 @@ def extract_data(address):
 
         email.extend(re.findall('[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', content))
     except Exception as e:
-        # print('no content for main')
+        print('no content for main')
         return '', '', email
 
     try:
