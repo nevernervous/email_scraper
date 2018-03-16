@@ -8,4 +8,6 @@ npm install -g bower
 bower install
 pip install -r requirements.txt
 python manage.py runserver
+
+celery -A email_scraper worker -l info
 ```
