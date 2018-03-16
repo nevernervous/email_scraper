@@ -24,31 +24,35 @@ def scrape(s_id):
     if not os.path.exists(result_path):
         os.makedirs(result_path)
     result_csv_path = result_path + time.strftime("%Y_%m_%d_%H_%M_%S_") + '.csv'
-    with open(scrape_request.csv_path) as csv_file:
+    with open(scrape_request.csv_path, encoding='utf-8') as csv_file:
         with open(result_csv_path, 'w') as output_file:
             reader = csv.reader(csv_file)
             writer = csv.writer(output_file, delimiter=",", lineterminator="\n")
             writer.writerow(['website', 'facebook', 'instagram', 'email'])
             # i = 0
             for row in reader:
-                if row:
-                    url = row[0]
-                    if url.lower() == 'website':
-                        continue
+                try:
+                    if row:
+                        url = row[0]
+                        if url.lower() == 'website':
+                            continue
 
-                    if not url:
-                        row.append('')
-                        row.append('')
-                        row.append('')
-                    else:
-                        facebook, instagram, emails = extract_data(url)
-                        row.append(facebook)
-                        row.append(instagram)
-                        row.append(','.join(emails))
+                        if not url:
+                            row.append('')
+                            row.append('')
+                            row.append('')
+                        else:
+                            facebook, instagram, emails = extract_data(url)
+                            row.append(facebook)
+                            row.append(instagram)
+                            row.append(','.join(emails))
 
-                    # print(i)
-                    # i = i + 1
-                    writer.writerow(row)
+                        # print(i)
+                        # i = i + 1
+                        writer.writerow(row, )
+                except Exception as e:
+                    print(e)
+                    continue
 
             scrape_request.result_csv_path = result_csv_path
             scrape_request.status = 1
