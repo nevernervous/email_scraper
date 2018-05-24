@@ -138,8 +138,8 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": "key-939396a5f997df66be75888be617b257",
-    "MAILGUN_SENDER_DOMAIN": "www.qwikleads.com",
+    "MAILGUN_API_KEY": "",
+    "MAILGUN_SENDER_DOMAIN": "",
 }
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
