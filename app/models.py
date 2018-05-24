@@ -5,6 +5,7 @@ from django.db import models
 
 class ScrapeRequest(models.Model):
     email = models.EmailField()
+    subject = models.CharField(max_length=300, blank=True, null=True)
     csv_path = models.CharField(max_length=100)
     result_csv_path = models.CharField(max_length=100, blank=True, null=True)
     status = models.IntegerField(default=0)

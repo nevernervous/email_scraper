@@ -21,6 +21,7 @@ class HomeView(View):
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
         urls = request.POST.get('urls')
+        subject = request.POST.get('subject')
 
         file_path = self.csv_path + time.strftime("%Y_%m_%d_%H_%M_%S_") + email + '.csv'
 
@@ -30,7 +31,7 @@ class HomeView(View):
         with open(file_path, 'w') as file:
             file.write(urls)
 
-        scrape_request = ScrapeRequest.objects.create(email=email, csv_path=file_path)
+        scrape_request = ScrapeRequest.objects.create(email=email, csv_path=file_path, subject=subject)
         scrape_request.save()
 
         scrape.delay(scrape_request.id)

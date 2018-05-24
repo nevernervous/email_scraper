@@ -58,9 +58,9 @@ def scrape(s_id):
             scrape_request.status = 1
             scrape_request.save()
 
-    message = EmailMessage("Scraped Result", "Here is the scraped result.", settings.DEFAULT_FROM_EMAIL,
+    message = EmailMessage("Scraped Result", "Here is the scraped result: {}.".format(scrape_request.subject), settings.DEFAULT_FROM_EMAIL,
                            [scrape_request.email])
-    message.attach('scraped_result.csv', open(result_csv_path).read(), 'text/csv')
+    message.attach('{}.csv'.format(scrape_request.subject), open(result_csv_path).read(), 'text/csv')
     message.send()
 
 
@@ -124,7 +124,7 @@ def extract_data(address):
 
     facebook = list(set(facebook))
     instagram = list(set(instagram))
-    email = list(set(email))
+    email = remove_duplicate_email(email)
 
     for index, item in enumerate(facebook):
         facebook[index] = facebook[index][6:]
@@ -160,3 +160,14 @@ def extract_data(address):
         instagram = instagram_list[0]
     return facebook, instagram, email_list
 
+
+def remove_duplicate_email(emails):
+    result = []
+    marker = set()
+
+    for l in emails:
+        ll = l.lower()
+        if ll not in marker:
+            marker.add(ll)
+            result.append(l)
+    return result
